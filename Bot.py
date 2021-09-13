@@ -9,6 +9,7 @@ games = [
 	GuessNumber
 ]
 
+# TODO: track active games and stuff
 active_games = []
 
 ctx = discord.Client()
@@ -31,6 +32,12 @@ async def on_message(message: discord.Message):
     if msg_lower.startswith(prefix):
         command = msg_lower.split(" ")
         root = command[0].removeprefix(prefix)
+        # TODO: test python 3.10 match case
+        # TODO: command alias system
+        # TODO: register commands somewhere else?
+        # TODO: help command (default to this?)
+        # TODO: errors if wrong output
+        # TODO: better system to retrieve arguments
         if root == "game":
             await start_game(ctx, message.channel, command[1], message.author)
             await message.channel.send("Started Game!")
@@ -50,6 +57,7 @@ async def start_game(ctx, channel, name, user):
 def is_match(input: str, alias: list()):
     return input.lower() in (s.lower() for s in alias)
 
+# TODO: make sure everyone has created this file (warning maybe?)
 with open("API_KEY.txt", "r") as f:
 	key = f.read()
 ctx.run(key)

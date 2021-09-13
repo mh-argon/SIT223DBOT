@@ -21,15 +21,17 @@ class GuessNumberState(GameState):
 
 	async def finished(self):
 		if self.fin:
-			return [self.parent.owner], "Correct! You guessed my number in " + self.index + " guesses."
+			return [self.parent.owner], "Correct! You guessed my number in " + str(self.index) + " guesses."
 		return False
 
 	def to_string(self):
-		return "Guess a number between 1 and 100"
+		if self.index == 0:
+			return "Guess a number between 1 and 100"
+		return ""
 
 	async def next(self):
 		self.index += 1
-		guess: int = await self.parent.read_int()
+		message, guess = await self.parent.read_int()
 		if guess < self.number:
 			await self.parent.send("Higher")
 		elif guess > self.number:

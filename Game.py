@@ -1,8 +1,10 @@
+from typing import Tuple
 import discord
 
 class Game():
 	name = "Game"
 	async def create(ctx, channel, user):
+		"""Called when a user starts a new game"""
 		return Game(ctx, channel, user)
 
 	players = []
@@ -13,31 +15,44 @@ class Game():
 		self.channel = channel
 	
 	async def play(self):
-		self.state: GameState
+		"""Plays the game in a sequence of display state -> next state -> is_finished loops
+		Override for a custom loop"""
 		fin = False
 		while fin == False:
 			await self.state.display()
-			self.state = await self.state.next()
+			self.state: GameState = await self.state.next()
 			fin = await self.state.finished()
+		winners, msg = fin
+		await self.send(msg)
 
 	async def send(self, message):
-		await self.channel.send(message)
+		if message:
+			await self.channel.send(message)
 
-	async def read_int(self, prompt:str="") -> int:
-		out = await self.read_string(prompt)
-		while not out.isdigit():
+	async def read_int(self, prompt:str="", check=None) -> Tuple[discord.Message, int]:
+		"""Reads the next message that is also an integer from a player
+		Prompts the player if the message is not an integer."""
+		message = await self.read_string(prompt, check)
+		while not message.content.isdigit():
 			await self.send("Please enter a valid integer")
-			out = await self.read_string(prompt)
-		return int(out)
+			message = await self.read_string(prompt, check)
+		return message, int(message.content)
 
-	async def read_string(self, prompt:str="") -> str:
-		if prompt:
-			await self.send(prompt)
+	# TODO: read only from the correct channel self.channel
+	async def read_string(self, prompt:str="", check=None) -> discord.Message:
+		"""Read the next message from a player (in the game)
+		check function allows you to check for a specific user."""
+		await self.send(prompt)
 
-		def check(m: discord.Message):
-			return m.author in self.players
+		if check == None:
+			def check(m: discord.Message):
+				return True
 
-		return str(await self.ctx.wait_for("message", check=check))
+		def _check(m: discord.Message):
+			return m.author in self.players and check(m)
+
+		message: discord.Message = await self.ctx.wait_for("message", check=_check)
+		return message
 		
 
 class GameState():
@@ -56,7 +71,7 @@ class GameState():
 		Return ([] or [winners], None or custom message) otherwise."""
 		return False
 
-	async def display(self):
+	async def display(self) -> None:
 		"""Display the current game state to the user."""
 		await self.parent.send(self.to_string())
 
