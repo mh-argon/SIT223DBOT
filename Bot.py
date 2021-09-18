@@ -42,9 +42,9 @@ async def on_message(message: discord.Message):
             await start_game(ctx, message.channel, command[1], message.author)
             await message.channel.send("Started Game!")
         elif root == "say":
-            await message.channel.send(msg[(4 + len(prefix)):]) # len("say ") == 4
+            await message.channel.send(msg[(len(prefix) + len("say ")):])
         elif root == "prefix":
-            prefix = msg[(len("prefix ") + len(prefix)):]
+            prefix = msg[(len(prefix) + len("prefix ")):]
             await message.channel.send("Set prefix to: '" + prefix + "'")
         elif root == "play":
             await active_games[0].play()
