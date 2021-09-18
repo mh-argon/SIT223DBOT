@@ -31,7 +31,7 @@ async def on_message(message: discord.Message):
     global prefix
     if msg_lower.startswith(prefix):
         command = msg_lower.split(" ")
-        root = command[0].removeprefix(prefix)
+        root = command[0][len(prefix):]
         # TODO: test python 3.10 match case
         # TODO: command alias system
         # TODO: register commands somewhere else?
