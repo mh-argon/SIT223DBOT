@@ -6,7 +6,7 @@ import Game
 from GuessNumber import GuessNumber
 
 games = [
-	GuessNumber
+    GuessNumber
 ]
 
 # TODO: track active games and stuff
@@ -59,5 +59,5 @@ def is_match(input: str, alias: list()):
 
 # TODO: make sure everyone has created this file (warning maybe?)
 with open("API_KEY.txt", "r") as f:
-	key = f.read()
+    key = f.read()
 ctx.run(key)
