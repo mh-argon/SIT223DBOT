@@ -59,7 +59,7 @@ class Game():
         """Reads the next message that is also an integer from a player
         Prompts the player if the message is not an integer."""
         message = await self.read_string(prompt, check)
-        while not message.content.isdigit():
+        while not is_int(message.content):
             message = await self.read_string("Please enter a valid integer \n" + prompt, check)
         return message, int(message.content)
 
@@ -70,7 +70,7 @@ class Game():
         await self.send(prompt)
 
         def _check(m: discord.Message):
-            return m.author in self.players and check != None and check(m)
+            return m.author in self.players and (check == None or check(m))
 
         message: discord.Message = await self.ctx.wait_for("message", check=_check)
         return message
@@ -104,6 +104,14 @@ class GameState():
 def is_float(value):
     try:
         float(value)
+        return True
+    except ValueError:
+        return False
+
+
+def is_int(value):
+    try:
+        int(value)
         return True
     except ValueError:
         return False
