@@ -25,18 +25,17 @@ class Game():
         winners, msg = fin
         if msg == None:
             # Set default message
-            winners_count = len(winners)
-            if winners == None or winners_count == 0:
+            if winners == None or len(winners) == 0:
                 msg = "You lose :("
-            elif winners_count == 1:
+            elif len(winners) == 1:
                 msg = "Congratulations " + winners[0] + "! You Win!"
             else:
                 msg = "Congratulations "
                 for i, winner in enumerate(winners):
                     msg += winner
-                    if i == winners_count - 2:
+                    if i == len(winners) - 2:
                         msg += " and " # Comma Here?
-                    elif i < winners_count - 2:
+                    elif i < len(winners) - 2:
                         msg += ", "
                 msg += " for winning!"
         await self.send(msg)
@@ -74,7 +73,6 @@ class Game():
 
         message: discord.Message = await self.ctx.wait_for("message", check=_check)
         return message
-        
 
 class GameState():
     def __init__(self, parent: Game, index):
