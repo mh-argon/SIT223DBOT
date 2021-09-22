@@ -4,10 +4,12 @@ import os
 import Game
 
 from GuessNumber import GuessNumber
+from ConnectFour import ConnectFour
 
 # Registered Games
 registered_games = [
-    GuessNumber
+    GuessNumber,
+    ConnectFour
 ]
 
 # Games that have been created but not started yet. user:game
