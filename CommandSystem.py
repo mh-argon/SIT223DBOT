@@ -33,7 +33,7 @@ class CommandSystemHandler():
             client.load_extension(f'Commands.{filename[:-3]}')
     
     ## testing will make it so it runs when bot.py is run
-    client.run('ODgzNTk3MzAxNjIzNDM1MjY2.YTMQHQ.a32AQJJMpJqncRWv4Ka5RQBnMio')
+    #client.run('ODgzNTk3MzAxNjIzNDM1MjY2.YTMQHQ.a32AQJJMpJqncRWv4Ka5RQBnMio')
 
 
     
