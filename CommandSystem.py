@@ -12,6 +12,7 @@ from discord.ext import commands
 ## TODO: help command 
 ## TODO: errors if wrong output
 ## TODO: better system to retrieve arguments
+## TODO: make the system print the commands in one line
 
 ## mainly using this for test will replace so we can use commands from bot.py
 client = commands.Bot(command_prefix = '/')
