@@ -33,8 +33,9 @@ class CommandSystemHandler():
         if filename.endswith('Command.py'):
             client.load_extension(f'Commands.{filename[:-3]}')
     
-    ## testing will make it so it runs when bot.py is run
-    #client.run('ODgzNTk3MzAxNjIzNDM1MjY2.YTMQHQ.a32AQJJMpJqncRWv4Ka5RQBnMio')
+    with open("API_KEY.txt", "r") as f:
+        key = f.read()
+    client.run(key)
 
 
     
