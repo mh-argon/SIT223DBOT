@@ -2,7 +2,7 @@ from Game import *
 
 class ConnectFour(Game):
     name = "Number Guessing"
-    alias = [name, "ConnectFour", "connect", "c4"]
+    alias = [name, "ConnectFour", "connect", "c4", "connect4"]
     async def create(ctx, channel, user):
         return ConnectFour(ctx, channel, user)
 
